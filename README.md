@@ -46,6 +46,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
       - somehow bootstrap it in
   - Spec coverage
   - Support for non-Rails environments
+  - Support field level expiry options
 
 ## Contributing
 
