@@ -89,9 +89,7 @@ module GraphQL
             config[:query_context]
           )
         else
-          cached.class.new(
-            cached
-          )
+          cached
         end
       end
     end
