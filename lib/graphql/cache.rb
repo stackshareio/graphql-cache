@@ -40,9 +40,10 @@ module GraphQL
       cached = cache.read(key)
 
       if cached.nil?
-        logger.error "Cache miss: (#{key})"
+        logger.debug "Cache miss: (#{key})"
         marshal_to_cache(key, config, &block)
       else
+        logger.debug "Cache hit: (#{key})"
         marshal_from_cache(cached, config)
       end
     end
