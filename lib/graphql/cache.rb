@@ -1,7 +1,13 @@
-require "graphql/cache/version"
+require 'graphql/cache/version'
+require 'graphql/cache/configuration'
+require 'graphql/cache/middleware'
 
-module Graphql
+module GraphQL
   module Cache
-    # Your code goes here...
+    extend Configuration
+
+    ConfigurationError = Class.new(StandardError)
   end
 end
+
+require 'graphql/cache/rails' if defined?(::Rails::Engine)

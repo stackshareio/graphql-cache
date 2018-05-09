@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Michael Kelly"]
   spec.email         = ["michaelkelly322@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Caching middleware for graphql-ruby}
+  spec.description   = %q{Provides middleware field-level caching for graphql-ruby}
+  spec.homepage      = "https://github.com/Leanstack/graphql-cache"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,4 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  spec.add_dependency 'graphql', '1.8.0.pre11'
 end
