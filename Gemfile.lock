@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    graphql-cache (0.1.0)
-      graphql (= 1.8.0.pre11)
+    graphql-cache (0.1.1)
+      graphql (~> 1.8.0.pre10)
 
 GEM
   remote: https://rubygems.org/
