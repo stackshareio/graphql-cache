@@ -1,6 +1,8 @@
+require 'graphql'
+
 module GraphQL
   module Cache
-    class Field < GraphQL::Schema::Field
+    class Field < ::GraphQL::Schema::Field
       # Override #initialize to take a new argument:
       def initialize(
         *args,
