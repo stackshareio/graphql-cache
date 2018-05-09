@@ -5,13 +5,13 @@ module GraphQL
       def initialize(
         *args,
         cache: false,
-        cache_expiry: GraphQL::Cache.global_expiry,
+        expiry: nil,
         **kwargs,
         &block
       )
-        @cachabe_config = {
+        @cache_config = {
           cache: cache,
-          cache_expiry: cache_expiry
+          expiry: expiry
         }
         super(*args, **kwargs, &block)
       end

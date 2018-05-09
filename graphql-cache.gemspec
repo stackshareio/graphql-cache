@@ -5,7 +5,7 @@ require "graphql/cache/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "graphql-cache"
-  spec.version       = Graphql::Cache::VERSION
+  spec.version       = GraphQL::Cache::VERSION
   spec.authors       = ["Michael Kelly"]
   spec.email         = ["michaelkelly322@gmail.com"]
 
@@ -34,5 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
 
-  spec.add_dependency 'graphql', '1.8.0.pre11'
+  spec.add_dependency 'graphql', '~> 1.8.0.pre10'
 end
