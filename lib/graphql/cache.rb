@@ -26,10 +26,6 @@ module GraphQL
     def self.logger; @@logger; end
     def self.logger=(obj); @@logger=obj; end
 
-    @@log_level = nil
-    def self.log_level; @@log_level; end
-    def self.log_level=(obj); @@log_level=obj; @@logger.try(:level=, obj); end
-
     def self.configure
       yield self
     end
