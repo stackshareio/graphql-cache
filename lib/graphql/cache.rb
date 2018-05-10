@@ -53,7 +53,7 @@ module GraphQL
                   when 'GraphQL::Relay::RelationConnection'
                     raw.nodes
                   else
-                    raw.try(:object) || raw
+                    raw.respond_to?(:object) ? raw.object : raw
                   end
 
       cache.write(key, marshaled, expires_in: config[:expiry] || GraphQL::Cache.expiry)

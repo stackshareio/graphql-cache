@@ -41,6 +41,92 @@ RSpec.describe GraphQL::Cache do
           expect(subject).to eq 'foo'
         end
       end
+
+      describe '#marshal_to_cache' do
+        let(:key)    { 'key' }
+        let(:config) { Hash.new }
+        let(:obj)    { 'foo' }
+
+        subject do
+          described_class.marshal_to_cache(key, config) { obj }
+        end
+
+        context 'when object is a scalar' do
+          it 'should write the result to cache' do
+            expect(GraphQL::Cache.cache).to receive(:write).with(key, obj, expires_in: GraphQL::Cache.expiry)
+            subject
+          end
+
+          it 'should return raw value' do
+            allow(GraphQL::Cache.cache).to receive(:write)
+            expect(subject).to eq obj
+          end
+        end
+
+        context 'when object is a schema object' do
+          let(:obj) do
+            ::GraphQL::Schema::Object.new(
+              'foo',
+              nil
+            )
+          end
+
+          it 'should write the marshaled value to cache' do
+            expect(GraphQL::Cache.cache).to receive(:write).with(key, 'foo', expires_in: GraphQL::Cache.expiry)
+            subject
+          end
+
+          it 'should return raw value' do
+            allow(GraphQL::Cache.cache).to receive(:write)
+            expect(subject).to eq obj
+          end
+        end
+
+        context 'when object is an array' do
+          let(:obj) do
+            [
+              ::GraphQL::Schema::Object.new(
+                'foo',
+                nil
+              ),
+              ::GraphQL::Schema::Object.new(
+                'bar',
+                nil
+              )
+            ]
+          end
+
+          it 'should write the marshaled value to cache' do
+            expect(GraphQL::Cache.cache).to receive(:write).with(key, ['foo', 'bar'], expires_in: GraphQL::Cache.expiry)
+            subject
+          end
+
+          it 'should return raw value' do
+            allow(GraphQL::Cache.cache).to receive(:write)
+            expect(subject).to eq obj
+          end
+        end
+
+        context 'when object is Connection' do
+          let(:nodes) { ['foo', 'bar'] }
+          let(:obj) do
+            GraphQL::Relay::RelationConnection.new(
+              nodes,
+              nil
+            )
+          end
+
+          it 'should write the marshaled value to cache' do
+            expect(GraphQL::Cache.cache).to receive(:write).with(key, ['foo', 'bar'], expires_in: GraphQL::Cache.expiry)
+            subject
+          end
+
+          it 'should return raw value' do
+            allow(GraphQL::Cache.cache).to receive(:write)
+            expect(subject).to eq obj
+          end
+        end
+      end
     end
   end
 end

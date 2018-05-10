@@ -1,5 +1,8 @@
 require "bundler/setup"
 require "graphql/cache"
+require 'byebug'
+
+Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -12,3 +15,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+GraphQL::Cache.cache = TestCache.new
