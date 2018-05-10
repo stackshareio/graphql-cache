@@ -1,6 +1,4 @@
-# Graphql Cache
-
-  [![Build Status](https://travis-ci.org/Leanstack/graphql-cache.svg?branch=master)](https://travis-ci.org/Leanstack/graphql-cache)
+# Graphql Cache [![Build Status](https://travis-ci.org/Leanstack/graphql-cache.svg?branch=master)](https://travis-ci.org/Leanstack/graphql-cache) [![Dependency Status](https://gemnasium.com/badges/github.com/Leanstack/graphql-cache.svg)](https://gemnasium.com/github.com/Leanstack/graphql-cache)
 
   GraphQL Cache is a custom middleware for graphql-ruby providing field-level caching
 
