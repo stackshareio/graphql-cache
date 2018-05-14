@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 3.0"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "codeclimate-test-reporter"
+  s.add_development_dependency "pry"
 
   s.add_dependency 'graphql', '~> 1.8.0.pre10'
 end
