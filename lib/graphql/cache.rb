@@ -1,6 +1,7 @@
 require 'graphql/cache/version'
 require 'graphql/cache/middleware'
 require 'graphql/cache/field'
+require 'graphql/cache/marshal'
 
 module GraphQL
   module Cache
@@ -33,61 +34,7 @@ module GraphQL
     def self.fetch(key, config: {}, &block)
       return block.call unless config[:cache]
 
-      cached = cache.read(key)
-
-      if cached.nil?
-        logger.debug "Cache miss: (#{key})"
-        marshal_to_cache(key, config, &block)
-      else
-        logger.debug "Cache hit: (#{key})"
-        marshal_from_cache(cached, config)
-      end
-    end
-
-    def self.marshal_to_cache(key, config, &block)
-      raw = block.call
-
-      marshaled = case raw.class.name
-                  when 'Array'
-                    raw.map(&:object)
-                  when 'GraphQL::Relay::RelationConnection'
-                    raw.nodes
-                  else
-                    raw.try(:object) || raw
-                  end
-
-      cache.write(key, marshaled, expires_in: config[:expiry] || GraphQL::Cache.expiry)
-      raw
-    end
-
-    def self.marshal_from_cache(cached, config = {})
-      case cached.class.name
-      when 'Array'
-        cached.map do |raw|
-          config[:field_definition].type.unwrap.graphql_definition.metadata[:type_class].new(
-            raw,
-            config[:query_context]
-          )
-        end
-      when 'ActiveRecord::Associations::CollectionProxy'
-        GraphQL::Relay::RelationConnection.new(
-          cached,
-          config[:field_args],
-          field:   config[:query_context].field,
-          parent:  config[:parent_object].object,
-          context: config[:query_context]
-        )
-      else
-        klass = config[:field_definition].type.unwrap.graphql_definition.metadata[:type_class]
-        if klass
-          new(
-            cached,
-            config[:query_context]
-          )
-        else
-          cached
-        end
-      end
+      Marshal[key].read(config, &block)
     end
   end
 end
