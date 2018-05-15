@@ -27,15 +27,20 @@ RSpec.describe GraphQL::Cache do
     describe '#fetch' do
       let(:key)   { 'key' }
       let(:value) { 'foo' }
+      let(:cache_config) do
+        {}
+      end
       let(:config) do
         {
-          cache:            true,
           parent_type:      TestSchema.types['Test'],
           parent_object:    nil,
           field_definition: TestSchema.types['Test'].fields['anId'],
           field_args:       nil,
           query_context:    nil,
-          object:           nil
+          object:           nil,
+          metadata: {
+            cache: cache_config
+          }
         }
       end
 
@@ -43,8 +48,8 @@ RSpec.describe GraphQL::Cache do
         described_class.fetch(key, config: config) { value }
       end
 
-      context 'config->cache is not set' do
-        let(:config) { Hash.new }
+      context 'metadata->cache is not set' do
+        let(:cache_config) { nil }
 
         it 'should return resolver result' do
           expect(subject).to eq 'foo'
