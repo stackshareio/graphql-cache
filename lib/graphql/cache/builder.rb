@@ -21,7 +21,7 @@ module GraphQL
         self.config = config
 
         return build_array    if method == 'array'
-        return build_relation if method == 'collectionproxy'
+        return build_relation if method == 'collectionproxy' || method == 'relation'
         build_object
       end
 
