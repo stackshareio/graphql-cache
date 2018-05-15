@@ -3,10 +3,6 @@ require 'spec_helper'
 RSpec.describe GraphQL::Cache do
   let(:cache) { GraphQL::Cache.cache }
 
-  it "has a version number" do
-    expect(GraphQL::Cache::VERSION).not_to be nil
-  end
-
   context 'configuration' do
     subject { described_class }
 
