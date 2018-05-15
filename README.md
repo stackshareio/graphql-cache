@@ -47,6 +47,20 @@ Any object, list, or connection field can be cached by simply adding `cache: tru
 field :calculated_field, Int, cache: true
 ```
 
+By default all keys will have an expiration of `GraphQL::Cache.expiry` which defaults to 90 minutes.  If you want to set a field-specific expiration time pass a hash to the `cache` parameter like this:
+
+```ruby
+field :calculated_field, Int, cache: { expiry: 10800 } # expires key after 180 minutes
+```
+
+When passing a hash in the `cache` parameter the possible options are:
+
+| Key      | Default | Description                                                |
+|----------|---------|------------------------------------------------------------|
+| `expiry` | 5400    | expiration time for this field's key in seconds            |
+| `force`  | false   | force cache misses on this field                           |
+| `prefix` |         | cache key prefix (appended after GraphQL::Cache.namespace) |
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
