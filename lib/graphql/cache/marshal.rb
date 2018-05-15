@@ -4,6 +4,7 @@ require 'graphql/cache/builder'
 
 module GraphQL
   module Cache
+    # Used to marshal data to/from cache on cache hits/misses
     class Marshal
       attr_accessor :key
 
@@ -27,16 +28,15 @@ module GraphQL
         end
       end
 
-      def write(config, &block)
-        resolved = block.call
-        expiry = config[:expiry] || GraphQL::Cache.expiry
+      def write(config)
+        resolved = yield
+        expiry = config[:metadata][:expiry] || GraphQL::Cache.expiry
 
         document = Builder[resolved].deconstruct
 
         cache.write(key, document, expires_in: expiry)
         resolved
       end
-
 
       def build(cached, config)
         Builder[cached].build(config)

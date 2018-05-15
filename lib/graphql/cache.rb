@@ -32,7 +32,7 @@ module GraphQL
     end
 
     def self.fetch(key, config: {}, &block)
-      return block.call unless config[:cache]
+      return block.call unless config[:metadata][:cache]
 
       Marshal[key].read(config, &block)
     end

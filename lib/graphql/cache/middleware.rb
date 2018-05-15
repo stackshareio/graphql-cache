@@ -2,15 +2,20 @@
 
 module GraphQL
   module Cache
+    # graphql-ruby middleware to wrap resolvers for caching
     class Middleware
       attr_accessor :parent_type, :parent_object, :object, :cache,
-        :field_definition, :field_args, :query_context,
+                    :field_definition, :field_args, :query_context
 
-        def self.call(*args, &block)
-          new(*args).call(&block)
+      def self.call(*args, &block)
+        new(*args).call(&block)
       end
 
-      def initialize(parent_type, parent_object, field_definition, field_args, query_context)
+      def initialize(parent_type,
+                     parent_object,
+                     field_definition,
+                     field_args,
+                     query_context)
         self.parent_type      = parent_type
         self.parent_object    = parent_object
         self.field_definition = field_definition
@@ -28,7 +33,15 @@ module GraphQL
           field_args:       field_args,
           query_context:    query_context,
           object:           object
-        }.merge(field_definition.metadata[:cache_config] || {})
+        }.merge metadata_hash
+      end
+
+      def metadata_hash
+        {
+          metadata: {
+            cache: field_definition.metadata[:cache] || {}
+          }
+        }
       end
 
       def call(&block)

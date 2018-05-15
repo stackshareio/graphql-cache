@@ -7,20 +7,20 @@ module GraphQL
       def initialize(
         *args,
         cache: false,
-        expiry: nil,
         **kwargs,
         &block
       )
-        @cache_config = {
-          cache: cache,
-          expiry: expiry
-        }
+        @cache_config = if cache.is_a? Hash
+                          cache
+                        else
+                          { cache: cache }
+                        end
         super(*args, **kwargs, &block)
       end
 
       def to_graphql
         field_defn = super # Returns a GraphQL::Field
-        field_defn.metadata[:cache_config] = @cache_config
+        field_defn.metadata[:cache] = @cache_config
         field_defn
       end
     end
