@@ -16,7 +16,7 @@ module GraphQL
         self.field_definition = field_definition
         self.field_args       = field_args
         self.query_context    = query_context
-        self.object           = parent_object.try(:object)
+        self.object           = parent_object.object if parent_object
         self.cache            = ::GraphQL::Cache.cache
       end
 
@@ -51,9 +51,13 @@ module GraphQL
       def object_key
         return nil unless object
 
-        id_from_object = object.try(:id) || object.try(:fetch, :id, nil) || object.try(:fetch, 'id', nil)
-
         "#{object.class.name}:#{id_from_object}"
+      end
+
+      def id_from_object
+        return object.id if object.respond_to? :id
+        return object.fetch(:id, nil) if object.respond_to? :fetch
+        return object.fetch('id', nil) if object.respond_to? :fetch
       end
     end
   end
