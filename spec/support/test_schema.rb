@@ -22,7 +22,7 @@ class TestType < GraphQL::Schema::Object
   field :a_float,     Float,           null: false
   field :sub_object,  SubObjectType,   null: false
 
-  field :ints,        [Int],           null: false
+  field :ints,        [Int],           null: false, cache: true
   field :sub_objects, [SubObjectType], null: false
 
   def an_id;       123;   end
@@ -36,4 +36,6 @@ end
 
 class TestSchema < GraphQL::Schema
   query TestType
+
+  middleware GraphQL::Cache::Middleware
 end
