@@ -1,3 +1,5 @@
+require 'gemer'
+
 require 'graphql/cache/version'
 require 'graphql/cache/middleware'
 require 'graphql/cache/field'
@@ -5,30 +7,14 @@ require 'graphql/cache/marshal'
 
 module GraphQL
   module Cache
-    ConfigurationError = Class.new(StandardError)
+    include Gemer::Configurable
 
-    @@expiry = 5400 # 90 minutes
-    def self.expiry; @@expiry; end
-    def self.expiry=(obj); @@expiry=obj; end
-
-    @@force = false
-    def self.force; @@force; end
-    def self.force=(obj); @@force=obj; end
-
-    @@namespace = self.name
-    def self.namespace; @@namespace; end
-    def self.namespace=(obj); @@namespace=obj; end
-
-    @@cache = nil
-    def self.cache; @@cache; end
-    def self.cache=(obj); @@cache=obj; end
-
-    @@logger = nil
-    def self.logger; @@logger; end
-    def self.logger=(obj); @@logger=obj; end
-
-    def self.configure
-      yield self
+    setup_config do |c|
+      c.attr :cache
+      c.attr :expiry, 5400
+      c.attr :force, false, in: [true, false]
+      c.attr :logger
+      c.attr :namespace, 'GraphQL::Cache'
     end
 
     def self.fetch(key, config: {}, &block)
