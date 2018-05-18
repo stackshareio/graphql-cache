@@ -30,12 +30,20 @@ module GraphQL
 
       def write(config)
         resolved = yield
-        expiry = config[:metadata][:expiry] || GraphQL::Cache.expiry
-
         document = Builder[resolved].deconstruct
 
-        cache.write(key, document, expires_in: expiry)
+        cache.write(key, document, expires_in: expiry(config))
         resolved
+      end
+
+      def expiry(config)
+        cache_config = config[:metadata][:cache]
+
+        if cache_config.is_a?(Hash) && cache_config[:expiry]
+          config[:metadata][:cache][:expiry]
+        else
+          GraphQL::Cache.expiry
+        end
       end
 
       def build(cached, config)

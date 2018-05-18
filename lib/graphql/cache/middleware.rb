@@ -39,7 +39,7 @@ module GraphQL
       def metadata_hash
         {
           metadata: {
-            cache: field_definition.metadata[:cache] || {}
+            cache: field_definition.metadata[:cache]
           }
         }
       end

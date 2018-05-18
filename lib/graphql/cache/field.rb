@@ -2,6 +2,8 @@ require 'graphql'
 
 module GraphQL
   module Cache
+    # Custom field class implementation to allow for
+    # cache config keyword parameters
     class Field < ::GraphQL::Schema::Field
       # Override #initialize to take a new argument:
       def initialize(
@@ -10,11 +12,7 @@ module GraphQL
         **kwargs,
         &block
       )
-        @cache_config = if cache.is_a? Hash
-                          cache
-                        else
-                          { cache: cache }
-                        end
+        @cache_config = cache
         super(*args, **kwargs, &block)
       end
 
