@@ -21,8 +21,12 @@ module GraphQL
         self.field_definition = field_definition
         self.field_args       = field_args
         self.query_context    = query_context
-        self.object           = parent_object.object if parent_object
         self.cache            = ::GraphQL::Cache.cache
+
+        return unless parent_object
+
+        self.object = parent_object.nodes if parent_object.respond_to? :nodes
+        self.object = parent_object.object if parent_object.respond_to? :object
       end
 
       def cache_config
