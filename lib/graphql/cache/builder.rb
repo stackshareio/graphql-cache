@@ -8,6 +8,7 @@ module GraphQL
         new(raw, build_method)
       end
 
+      # Ruby-only means of "demodularizing" a string
       def self.namify(str)
         str.split('::').last.downcase
       end

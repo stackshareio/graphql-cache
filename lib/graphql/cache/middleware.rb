@@ -7,6 +7,7 @@ module GraphQL
       attr_accessor :parent_type, :parent_object, :object, :cache,
                     :field_definition, :field_args, :query_context
 
+      # Called by graphql-ruby during middleware processing
       def self.call(*args, &block)
         new(*args).call(&block)
       end
@@ -29,6 +30,7 @@ module GraphQL
         self.object = parent_object.object if parent_object.respond_to? :object
       end
 
+      # @private
       def cache_config
         {
           parent_type:      parent_type,
@@ -40,6 +42,7 @@ module GraphQL
         }.merge metadata_hash
       end
 
+      # @private
       def metadata_hash
         {
           metadata: {
@@ -48,6 +51,9 @@ module GraphQL
         }
       end
 
+      # The primary caching entry point
+      #
+      # @return [Object]
       def call(&block)
         GraphQL::Cache.fetch(
           cache_key,
@@ -56,6 +62,7 @@ module GraphQL
         )
       end
 
+      # @private
       def cache_key
         @cache_key ||= [
           GraphQL::Cache.namespace,
@@ -65,12 +72,14 @@ module GraphQL
         ].flatten
       end
 
+      # @private
       def object_key
         return nil unless object
 
         "#{object.class.name}:#{id_from_object}"
       end
 
+      # @private
       def id_from_object
         return object.id if object.respond_to? :id
         return object.fetch(:id, nil) if object.respond_to? :fetch
