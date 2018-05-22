@@ -8,6 +8,10 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    appraisal (2.2.0)
+      bundler
+      rake
+      thor (>= 0.14.0)
     codeclimate-test-reporter (0.6.0)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.2)
@@ -39,11 +43,13 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    thor (0.20.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  appraisal
   bundler (~> 1.16)
   codeclimate-test-reporter
   graphql-cache!
