@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.2.0' # bc graphql-ruby requires >= 2.2.0
 
+  s.add_development_dependency 'appraisal'
   s.add_development_dependency 'bundler', '~> 1.16'
   s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'pry'
