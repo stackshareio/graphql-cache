@@ -1,4 +1,5 @@
-# GraphQL Cache [![Build Status](https://travis-ci.org/Leanstack/graphql-cache.svg?branch=master)](https://travis-ci.org/Leanstack/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/test_coverage)](https://codeclimate.com/github/Leanstack/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/maintainability)](https://codeclimate.com/github/Leanstack/graphql-cache/maintainability)
+# GraphQL Cache
+  [![Build Status](https://travis-ci.org/Leanstack/graphql-cache.svg?branch=master)](https://travis-ci.org/Leanstack/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/test_coverage)](https://codeclimate.com/github/Leanstack/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/maintainability)](https://codeclimate.com/github/Leanstack/graphql-cache/maintainability)
 
   GraphQL Cache is a custom middleware for graphql-ruby providing field-level caching.  It is currently a work in progress and the API is subject to change prior to the release v1.0.0.
 
@@ -55,11 +56,9 @@
 
   When passing a hash in the `cache` parameter the possible options are:
 
-  | Key      | Default | Description                                                |
-  |----------|---------|------------------------------------------------------------|
-  | `expiry` | 5400    | expiration time for this field's key in seconds            |
-  | `force`  | false   | force cache misses on this field                           |
-  | `prefix` |         | cache key prefix (appended after GraphQL::Cache.namespace) |
+  - `expiry`: expiration time for this field's key in seconds (default: 5400)
+  - `force`: for cache misses on this field (default: false)
+  - `prefix`: cache key prefix (appended after GraphQL::Cache.namespace)
 
 ## Development
 
