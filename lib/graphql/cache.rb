@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'gemer'
-
 require 'graphql/cache/version'
 require 'graphql/cache/middleware'
 require 'graphql/cache/field'
@@ -9,8 +7,6 @@ require 'graphql/cache/marshal'
 
 module GraphQL
   module Cache
-    include Gemer::Configurable
-
     class << self
       # An object that must conform to the same API as ActiveSupport::Cache::Store
       # @return [Object] Defaults to `Rails.cache` in a Rails environment

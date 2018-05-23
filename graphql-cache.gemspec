@@ -29,6 +29,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec',   '~> 3.0'
   s.add_development_dependency 'simplecov'
 
-  s.add_dependency 'gemer', '~> 0.1'
   s.add_dependency 'graphql', '~> 1.8.0'
 end
