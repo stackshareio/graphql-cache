@@ -37,7 +37,7 @@ class TestType < GraphQL::Schema::Object
   def ints;        [1, 2]; end
   def sub_objects; [1, 2]; end
   def expiry_int;  12345; end
-  def sub_object;  {}; end
+  def sub_object;  { id: 123 }; end
 end
 
 class TestSchema < GraphQL::Schema

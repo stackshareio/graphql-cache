@@ -62,6 +62,23 @@ module GraphQL
           result
         end
       end
+
+      context 'when field has an object' do
+        let(:query) do
+          %Q{
+            {
+              subObject {
+                anInt
+              }
+            }
+          }
+        end
+
+        it 'should generate a unique cache_key' do
+          expect(cache).to receive(:write).with('["GraphQL::Cache", "Hash:123", "anInt"]', 73, expires_in: 5400)
+          result
+        end
+      end
     end
   end
 end
