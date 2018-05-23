@@ -11,15 +11,34 @@ module GraphQL
   module Cache
     include Gemer::Configurable
 
-    setup_config do |c|
-      c.attr :cache
-      c.attr :expiry, 5400
-      c.attr :force, false, in: [true, false]
-      c.attr :logger
-      c.attr :namespace, 'GraphQL::Cache'
+    class << self
+      # An object that must conform to the same API as ActiveSupport::Cache::Store
+      # @return [Object] Defaults to `Rails.cache` in a Rails environment
+      attr_accessor :cache
+
+      # Global default cache key expiration time in seconds.
+      # @return [Integer] Default: 5400 (90 minutes)
+      attr_accessor :expiry
+
+      # When truthy, override all caching (force evalutaion of resolvers)
+      # @return [Boolean] Default: false
+      attr_accessor :force
+
+      # Logger instance to use when logging cache hits/misses.
+      # @return [Logger]
+      attr_accessor :logger
+
+      # Global namespace for keys
+      # @return [String] Default: "GraphQL::Cache"
+      attr_accessor :namespace
     end
 
-    # Fetches/writes a value for +key+ from the cache
+    # Default configuration
+    @expiry    = 5400
+    @force     = false
+    @namespace = 'GraphQL::Cache'
+
+    # Fetches/writes a value for `key` from the cache
     #
     # Always evaluates the block unless config[:metadata][:cache] is truthy
     #
