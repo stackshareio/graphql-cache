@@ -24,6 +24,8 @@ RSpec.describe GraphQL::Cache do
     it { should respond_to :namespace }
     it { should respond_to :namespace= }
 
+    it { should respond_to :configure }
+
     describe '#fetch' do
       let(:key)   { 'key' }
       let(:value) { 'foo' }

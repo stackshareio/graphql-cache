@@ -27,6 +27,17 @@ module GraphQL
       # Global namespace for keys
       # @return [String] Default: "GraphQL::Cache"
       attr_accessor :namespace
+
+      # Provides for initializer syntax
+      #
+      # ```
+      # GraphQL::Cache.configure do |c|
+      #   c.namespace = 'MyNamespace'
+      # end
+      # ```
+      def configure
+        yield self
+      end
     end
 
     # Default configuration
