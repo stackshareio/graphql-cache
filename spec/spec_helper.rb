@@ -1,9 +1,10 @@
 require 'bundler/setup'
 require 'pry'
 
-require 'codeclimate-test-reporter'
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'
+end
 
 require 'graphql/cache'
 
