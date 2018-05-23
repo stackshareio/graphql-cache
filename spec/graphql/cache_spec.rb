@@ -26,6 +26,16 @@ RSpec.describe GraphQL::Cache do
 
     it { should respond_to :configure }
 
+    describe '#configure' do
+      it 'should yield self to allow setting config' do
+        expect{
+          described_class.configure { |c| c.force = true }
+        }.to change{
+          described_class.force
+        }.to true
+      end
+    end
+
     describe '#fetch' do
       let(:key)   { 'key' }
       let(:value) { 'foo' }
