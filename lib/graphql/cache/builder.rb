@@ -62,7 +62,7 @@ module GraphQL
       #
       # @return [Object] A value suitable for writing to cache
       def deconstruct
-        return deconstruct_arra(raw) if raw.class == Array
+        return deconstruct_array(raw) if raw.class == Array
         return raw.nodes if raw.class.ancestors.include? GraphQL::Relay::BaseConnection
 
         deconstruct_object(raw)
