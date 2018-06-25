@@ -62,14 +62,10 @@ module GraphQL
       #
       # @return [Object] A value suitable for writing to cache
       def deconstruct
-        case self.class.namify(raw.class.name)
-        when 'array'
-          deconstruct_array(raw)
-        when 'relationconnection'
-          raw.nodes
-        else
-          deconstruct_object(raw)
-        end
+        return deconstruct_arra(raw) if raw.class == Array
+        return raw.nodes if raw.class.ancestors.include? GraphQL::Relay::BaseConnection
+
+        deconstruct_object(raw)
       end
 
       # @private
@@ -94,7 +90,7 @@ module GraphQL
 
       # @private
       def build_relation
-        GraphQL::Relay::RelationConnection.new(
+        GraphQL::Relay::BaseConnection.connection_for_nodes(raw).new(
           raw,
           config[:field_args],
           field:   config[:query_context].field,
