@@ -21,6 +21,8 @@ module TestMacros
     end
 
     def config(opts={})
+      let(:query) { GraphQL::Query.new(TestSchema) }
+
       let(:config) do
         {
           cache:            opts[:cache] || (opts[:cache].nil? ? true : false),
@@ -28,7 +30,7 @@ module TestMacros
           parent_object:    opts[:parent_object],
           field_definition: opts[:field_definition] || TestSchema.types['Test'].fields['anId'],
           field_args:       opts[:field_args],
-          query_context:    opts[:query_context] || {},
+          query_context:    opts[:query_context] || query.context,
           object:           opts[:object]
         }
       end

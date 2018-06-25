@@ -37,8 +37,8 @@ module GraphQL
           context 'of custom types' do
             let(:raw) do
               [
-                TestType.new(1, config[:query_context]),
-                TestType.new(2, config[:query_context])
+                TestType.authorized_new(1, config[:query_context]),
+                TestType.authorized_new(2, config[:query_context])
               ]
             end
 
@@ -71,7 +71,7 @@ module GraphQL
           end
 
           context 'that responds to "object"' do
-            let(:raw) { TestType.new(2, config[:query_context]) }
+            let(:raw) { TestType.authorized_new(2, config[:query_context]) }
 
             it 'should return inner object' do
               expect(subject.deconstruct).to eq 2
@@ -119,7 +119,8 @@ module GraphQL
             allow(query_context).to receive(:field)
             allow(query_context).to receive(:schema).and_return(TestSchema)
             config[:query_context] = query_context
-            config[:parent_object] = TestType.new(nil,{})
+            config[:parent_object] = TestType.authorized_new({},query_context)
+            allow(GraphQL::Relay::BaseConnection).to receive(:connection_for_nodes).and_return(GraphQL::Relay::RelationConnection)
           end
 
           it 'should build a relation collection' do

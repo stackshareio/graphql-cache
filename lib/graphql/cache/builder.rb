@@ -105,7 +105,7 @@ module GraphQL
 
         raw.map do |item|
           if gql_def.kind.name == 'OBJECT'
-            config[:field_definition].type.unwrap.graphql_definition.metadata[:type_class].new(
+            gql_def.metadata[:type_class].authorized_new(
               item,
               config[:query_context]
             )
@@ -117,9 +117,10 @@ module GraphQL
 
       # @private
       def build_object
-        klass = config[:field_definition].type.unwrap.graphql_definition.metadata[:type_class]
-        if klass
-          klass.new(
+        gql_def = config[:field_definition].type.unwrap.graphql_definition
+        klass = gql_def.metadata[:type_class]
+        if gql_def.kind.name == 'OBJECT' && klass
+          klass.authorized_new(
             raw,
             config[:query_context]
           )
