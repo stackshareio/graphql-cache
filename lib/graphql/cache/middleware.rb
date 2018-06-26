@@ -77,6 +77,8 @@ module GraphQL
         return nil unless object
 
         "#{object.class.name}:#{id_from_object}"
+      rescue StandardError
+        nil
       end
 
       # @private
