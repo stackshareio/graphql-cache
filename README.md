@@ -1,5 +1,5 @@
 # GraphQL Cache
-  [![Build Status](https://travis-ci.org/Leanstack/graphql-cache.svg?branch=master)](https://travis-ci.org/Leanstack/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/test_coverage)](https://codeclimate.com/github/Leanstack/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/maintainability)](https://codeclimate.com/github/Leanstack/graphql-cache/maintainability)
+  [![Build Status](https://travis-ci.org/stackshareio/graphql-cache.svg?branch=master)](https://travis-ci.org/stackshareio/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/test_coverage)](https://codeclimate.com/github/stackshareio/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/c8560834b10db0618175/maintainability)](https://codeclimate.com/github/stackshareio/graphql-cache/maintainability)
 
   GraphQL Cache is a custom middleware for graphql-ruby providing field-level caching.  It is currently a work in progress and the API is subject to change prior to the release v1.0.0.
 
