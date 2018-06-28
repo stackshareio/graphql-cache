@@ -1,14 +1,24 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "graphql/cache"
+require 'bundler/setup'
+require 'graphql/cache'
+require 'logger'
+require 'mini_cache'
+require 'sequel'
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
+require_relative '../test_schema'
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+# Setup MiniCache for in-memory cache for dev/test
+class CacheStore < MiniCache::Store
+  alias read get
+  alias write set
+  alias clear reset
+end
 
-require "irb"
-IRB.start(__FILE__)
+GraphQL::Cache.configure do |config|
+  config.cache = CacheStore.new
+  config.logger = Logger.new(STDOUT)
+end
+
+require "pry"
+Pry.start
