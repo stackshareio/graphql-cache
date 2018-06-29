@@ -43,5 +43,6 @@ end
 class TestSchema < GraphQL::Schema
   query TestType
 
-  middleware GraphQL::Cache::Middleware
+  #middleware GraphQL::Cache::Middleware
+  use GraphQL::Cache
 end

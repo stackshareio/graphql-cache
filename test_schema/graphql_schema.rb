@@ -1,3 +1,5 @@
+require 'benchmark'
+
 class BaseType < GraphQL::Schema::Object
   field_class GraphQL::Cache::Field
 end
@@ -27,9 +29,16 @@ end
 class Schema < GraphQL::Schema
   query QueryType
 
-  middleware GraphQL::Cache::Middleware
+  use GraphQL::Cache
 
   def self.resolve_type(_type, obj, _ctx)
     "#{obj.class.name}Type"
+  end
+
+  def self.texecute(*args, **kwargs)
+    result = nil
+    measurement = Benchmark.measure { result = execute(*args, *kwargs) }
+    GraphQL::Cache.logger.debug("Query executed in #{measurement.real}")
+    result
   end
 end

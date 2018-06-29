@@ -1,6 +1,6 @@
 require 'sequel'
 
-DB = Sequel.sqlite
+DB = Sequel.sqlite(logger: GraphQL::Cache.logger)
 
 DB.create_table :customers do
   primary_key :id

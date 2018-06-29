@@ -6,8 +6,6 @@ require 'logger'
 require 'mini_cache'
 require 'sequel'
 
-require_relative '../test_schema'
-
 # Setup MiniCache for in-memory cache for dev/test
 class CacheStore < MiniCache::Store
   alias read get
@@ -19,6 +17,10 @@ GraphQL::Cache.configure do |config|
   config.cache = CacheStore.new
   config.logger = Logger.new(STDOUT)
 end
+
+# required after GraphQL::Cache initialization because dev
+# schema uses cache and logger objects from it.
+require_relative '../test_schema'
 
 require "pry"
 Pry.start
