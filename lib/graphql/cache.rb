@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'graphql/cache/version'
-require 'graphql/cache/middleware'
 require 'graphql/cache/field'
 require 'graphql/cache/marshal'
+require 'graphql/cache/fetcher'
 
 module GraphQL
   module Cache
@@ -45,18 +45,12 @@ module GraphQL
     @force     = false
     @namespace = 'GraphQL::Cache'
 
-    # Fetches/writes a value for `key` from the cache
-    #
-    # Always evaluates the block unless config[:metadata][:cache] is truthy
-    #
-    # @param key [String] the cache key to attempt to fetch
-    # @param config [Hash] a hash of middleware config values used to marshal cache data
-    # @option config [Hash] :metadata The metadata collected from the field definition
-    # @return [Object]
-    def self.fetch(key, config: {}, &block)
-      return block.call unless config[:metadata][:cache]
-
-      Marshal[key].read(config, &block)
+    # Called by plugin framework in graphql-ruby to
+    # bootstrap necessary instrumentation and tracing
+    # tie-ins
+    def self.use(schema_def, options: {})
+      fetcher = ::GraphQL::Cache::Fetcher.new(options)
+      schema_def.instrument(:field, fetcher)
     end
   end
 end

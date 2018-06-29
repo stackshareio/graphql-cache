@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'graphql/cache/builder'
+require 'graphql/cache/deconstructor'
 
 module GraphQL
   module Cache
@@ -37,17 +37,17 @@ module GraphQL
           write config, &block
         else
           logger.debug "Cache hit: (#{key})"
-          build cached, config
+          cached
         end
       end
 
       # Executes the resolution block and writes the result to cache
       #
-      # @see GraphQL::Cache::Builder#deconstruct
+      # @see GraphQL::Cache::Deconstruct#perform
       # @param config [Hash] The middleware resolution config hash
       def write(config)
         resolved = yield
-        document = Builder[resolved].deconstruct
+        document = Deconstructor[resolved].perform
 
         cache.write(key, document, expires_in: expiry(config))
         resolved
@@ -62,14 +62,6 @@ module GraphQL
         else
           GraphQL::Cache.expiry
         end
-      end
-
-      # Uses {GraphQL::Cache::Builder} to build a valid GraphQL object
-      # from a cached value
-      #
-      # @return [Object] An object suitable to return from a GraphQL middleware
-      def build(cached, config)
-        Builder[cached].build(config)
       end
 
       # @private
