@@ -55,10 +55,8 @@ module GraphQL
 
       # @private
       def expiry(config)
-        cache_config = config[:metadata][:cache]
-
-        if cache_config.is_a?(Hash) && cache_config[:expiry]
-          config[:metadata][:cache][:expiry]
+        if config.is_a?(Hash) && config[:expiry]
+          config[:expiry]
         else
           GraphQL::Cache.expiry
         end
