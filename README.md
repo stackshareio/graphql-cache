@@ -35,8 +35,23 @@ $ gem install graphql-cache
 
 ## Setup
 
-1. Add `use GraphQL::Cache` to your schema
-2. Add `field_class GraphQL::Cache::Field` to your base object type
+1. Use GraphQL Cache as a plugin in your schema.
+
+  ```ruby
+  class MySchema < GraphQL::Schema
+    query Types::Query
+
+    use GraphQL::Cache
+  end
+  ```
+2. Add the custom caching field class to your base object class. This adds the `cache` metadata key when defining fields.
+  ```ruby
+  module Types
+    class Base < GraphQL::Schema::Object
+      field_class GraphQL::Cache::Field
+    end
+  end
+  ```
 
 ## Configuration
 
