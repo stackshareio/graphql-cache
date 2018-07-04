@@ -54,20 +54,20 @@ module GraphQL
       end
 
       # @private
-      def deconstruct_object(raw)
-        if raw.respond_to?(:object)
-          raw.object
+      def deconstruct_array(raw)
+        return [] if raw.empty?
+
+        if raw.first.class.ancestors.include? GraphQL::Schema::Object
+          raw.map(&:object)
         else
           raw
         end
       end
 
       # @private
-      def deconstruct_array(raw)
-        return [] if raw.empty?
-
-        if raw.first.class.ancestors.include? GraphQL::Schema::Object
-          raw.map(&:object)
+      def deconstruct_object(raw)
+        if raw.respond_to?(:object)
+          raw.object
         else
           raw
         end
