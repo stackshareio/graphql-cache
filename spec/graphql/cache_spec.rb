@@ -36,4 +36,13 @@ RSpec.describe GraphQL::Cache do
       end
     end
   end
+
+  describe '#use' do
+    let(:schema) { double(:schema, instrument: nil) }
+
+    it 'should inject the plugin' do
+      expect(schema).to receive(:instrument).with(:field, an_instance_of(GraphQL::Cache::Fetcher))
+      GraphQL::Cache.use(schema)
+    end
+  end
 end
