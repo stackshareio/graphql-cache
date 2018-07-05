@@ -2,6 +2,7 @@
 
 require 'graphql/cache/version'
 require 'graphql/cache/field'
+require 'graphql/cache/key'
 require 'graphql/cache/marshal'
 require 'graphql/cache/fetcher'
 
