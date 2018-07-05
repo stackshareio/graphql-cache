@@ -44,7 +44,7 @@ module GraphQL
     # Default configuration
     @expiry    = 5400
     @force     = false
-    @namespace = 'GraphQL::Cache'
+    @namespace = 'graphql'
 
     # Called by plugin framework in graphql-ruby to
     # bootstrap necessary instrumentation and tracing
