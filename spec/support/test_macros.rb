@@ -13,7 +13,7 @@ module TestMacros
     end
 
     def setup_query
-      let(:query) { GraphQL::Query.new(Schema) }
+      let(:query) { GraphQL::Query.new(CacheSchema) }
     end
   end
 end

@@ -26,7 +26,7 @@ class QueryType < BaseType
   end
 end
 
-class Schema < GraphQL::Schema
+class CacheSchema < GraphQL::Schema
   query QueryType
 
   use GraphQL::Cache
