@@ -27,7 +27,7 @@ module GraphQL
       # Read a value from cache if it exists and re-hydrate it or
       # execute the block and write it's result to cache
       #
-      # @param config [Hash] The middleware resolution config
+      # @param config [Hash] The object passed to `cache:` on the field definition
       # @return [Object]
       def read(config, &block)
         cached = cache.read(key)
