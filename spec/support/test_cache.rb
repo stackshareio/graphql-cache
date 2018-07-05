@@ -12,4 +12,8 @@ class TestCache
   def cache
     @cache ||= {}
   end
+
+  def clear
+    @cache = {}
+  end
 end
