@@ -18,6 +18,7 @@ module GraphQL
       # Metadata passed to the cache key on field definition
       attr_accessor :metadata
 
+      # Initializes a new Key with the given graphql query context
       def initialize(obj, args, type, field)
         @object    = obj.object
         @arguments = args
@@ -29,6 +30,7 @@ module GraphQL
       end
 
       # Returns the string representation of this cache key
+      # suitable for using as a key when writing to cache
       def to_s
         @to_s ||= [
           GraphQL::Cache.namespace,
@@ -39,27 +41,30 @@ module GraphQL
         ].flatten.compact.join(':')
       end
 
+      # Produces the portion of the key representing the parent object
       def object_clause
         return nil unless object
 
         "#{object.class.name}:#{object_identifier}"
       end
 
+      # Produces the portion of the key representing the parent type
       def type_clause
         type.name
       end
 
+      # Produces the portion of the key representing the resolving field
       def field_clause
         field.name
       end
 
+      # Produces the portion of the key representing the query arguments
       def arguments_clause
         @arguments_clause ||= arguments.to_h.to_a.flatten
       end
 
       # @private
       def object_identifier
-
         case metadata[:key]
         when Symbol
           object.send(metadata[:key])
