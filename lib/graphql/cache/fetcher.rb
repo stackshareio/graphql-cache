@@ -1,12 +1,6 @@
 module GraphQL
   module Cache
     class Fetcher
-      attr_accessor :options
-
-      def initialize(options = {})
-        @options = options
-      end
-
       def instrument(type, field)
         old_resolve_proc = field.resolve_proc
 

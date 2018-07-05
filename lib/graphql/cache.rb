@@ -49,7 +49,7 @@ module GraphQL
     # bootstrap necessary instrumentation and tracing
     # tie-ins
     def self.use(schema_def, options: {})
-      fetcher = ::GraphQL::Cache::Fetcher.new(options)
+      fetcher = ::GraphQL::Cache::Fetcher.new
       schema_def.instrument(:field, fetcher)
     end
   end
