@@ -8,32 +8,12 @@ module TestMacros
   module ClassMethods
     def self.extended(mod)
       mod.class_eval do
-        config
+        setup_query
       end
     end
 
-    def document(&block)
-      let(:document, &block)
-    end
-
-    def key(&block)
-      let(:key, &block)
-    end
-
-    def config(opts={})
-      let(:query) { GraphQL::Query.new(TestSchema) }
-
-      let(:config) do
-        {
-          cache:            opts[:cache] || (opts[:cache].nil? ? true : false),
-          parent_type:      opts[:parent_type] || TestSchema.types['Test'],
-          parent_object:    opts[:parent_object],
-          field_definition: opts[:field_definition] || TestSchema.types['Test'].fields['anId'],
-          field_args:       opts[:field_args],
-          query_context:    opts[:query_context] || query.context,
-          object:           opts[:object]
-        }
-      end
+    def setup_query
+      let(:query) { GraphQL::Query.new(Schema) }
     end
   end
 end

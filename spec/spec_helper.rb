@@ -27,6 +27,10 @@ RSpec.configure do |config|
     GraphQL::Cache.logger = TestLogger.new
   end
 
+  # required after GraphQL::Cache initialization because dev
+  # schema uses cache and logger objects from it.
+  require_relative '../test_schema'
+
   config.include TestMacros
   config.extend  TestMacros::ClassMethods
 end
