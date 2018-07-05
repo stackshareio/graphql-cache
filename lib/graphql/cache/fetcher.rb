@@ -22,14 +22,7 @@ module GraphQL
 
       # @private
       def cache_key(obj, args, type, field)
-        object = obj.object
-        [
-          GraphQL::Cache.namespace,
-          (object ? "#{object.class.name}:#{object.id}" : nil),
-          type.name,
-          field.name,
-          args.to_h.to_a.flatten
-        ].flatten
+        Key.new(obj, args, type, field).to_s
       end
     end
   end
