@@ -8,7 +8,7 @@ module GraphQL
       end
 
       describe '#instrument' do
-        let(:type)  { Schema.types['Customer'] }
+        let(:type)  { CacheSchema.types['Customer'] }
         let(:field) do
           double(
             'graphql-ruby field',
