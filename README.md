@@ -1,3 +1,5 @@
+<img height=90 src=https://img.stackshare.io/misc/graphql-cache.png>
+
 # GraphQL Cache
 [![Gem Version](https://badge.fury.io/rb/graphql-cache.svg)](https://badge.fury.io/rb/graphql-cache) [![Build Status](https://travis-ci.org/stackshareio/graphql-cache.svg?branch=master)](https://travis-ci.org/stackshareio/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/test_coverage)](https://codeclimate.com/github/stackshareio/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/maintainability)](https://codeclimate.com/github/stackshareio/graphql-cache/maintainability)
 
@@ -11,7 +13,7 @@ A custom middleware for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby)
 
 ## Why?
 
-At [stackshare](https://stackshare.io) we've been rolling out [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) for several of our new features and found ourselves in need of a caching solution.  We could have simply used `Rails.cache` in our resolvers, but this creates very verbose types or resolver classes.  It also means that each and every resolver must define it's own expiration and key.  GraphQL Cache solves that problem by integrating caching functionality into the [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) resolution process making caching transparent on most fields except for a metadata flag denoting the field as cached.
+At [StackShare](https://stackshare.io) we've been rolling out [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) for several of our new features and found ourselves in need of a caching solution.  We could have simply used `Rails.cache` in our resolvers, but this creates very verbose types or resolver classes.  It also means that each and every resolver must define it's own expiration and key.  GraphQL Cache solves that problem by integrating caching functionality into the [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) resolution process making caching transparent on most fields except for a metadata flag denoting the field as cached. More details on our motivation for creating this [here](https://stackshare.io/posts/introducing-graphql-cache).
 
 ## Installation
 
