@@ -34,6 +34,18 @@ module GraphQL
         let(:config) { true }
         let(:block) { double('block', call: 'foo') }
 
+        context 'when force is set' do
+          it 'should execute the block' do
+            expect(block).to receive(:call)
+            subject.read(config, force: true) { block.call }
+          end
+
+          it 'should write to cache' do
+            expect(cache).to receive(:write).with(key, doc, expires_in: GraphQL::Cache.expiry)
+            subject.write(config) { doc }
+          end
+        end
+
         context 'when cache object exists' do
           before do
             cache.write(key, doc)

@@ -13,7 +13,8 @@ module GraphQL
           double(
             'graphql-ruby field',
             resolve_proc: ->(obj, args, ctx) { nil },
-            redefine: nil
+            redefine: nil,
+            metadata: { cache: true }
           )
         end
 
