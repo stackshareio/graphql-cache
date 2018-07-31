@@ -3,7 +3,7 @@
 # GraphQL Cache
 [![Gem Version](https://badge.fury.io/rb/graphql-cache.svg)](https://badge.fury.io/rb/graphql-cache) [![Build Status](https://travis-ci.org/stackshareio/graphql-cache.svg?branch=master)](https://travis-ci.org/stackshareio/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/test_coverage)](https://codeclimate.com/github/stackshareio/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/maintainability)](https://codeclimate.com/github/stackshareio/graphql-cache/maintainability)
 
-A custom middleware for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby)
+A custom caching plugin for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby)
 
 ## Goals
 
