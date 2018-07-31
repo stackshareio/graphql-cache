@@ -29,7 +29,10 @@ module GraphQL
       #
       # @param config [Hash] The object passed to `cache:` on the field definition
       # @return [Object]
-      def read(config, &block)
+      def read(config, force: false, &block)
+        # write new data from resolver if forced
+        return write(config, &block) if force
+
         cached = cache.read(key)
 
         if cached.nil?
