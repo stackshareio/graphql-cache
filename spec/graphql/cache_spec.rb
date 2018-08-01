@@ -18,8 +18,6 @@ RSpec.describe GraphQL::Cache do
     it { should respond_to :expiry }
     it { should respond_to :expiry= }
 
-    it { should respond_to :force }
-    it { should respond_to :force= }
 
     it { should respond_to :namespace }
     it { should respond_to :namespace= }
@@ -29,10 +27,10 @@ RSpec.describe GraphQL::Cache do
     describe '#configure' do
       it 'should yield self to allow setting config' do
         expect{
-          described_class.configure { |c| c.force = true }
+          described_class.configure { |c| c.expiry = 1234 }
         }.to change{
-          described_class.force
-        }.to true
+          described_class.expiry
+        }.to 1234
       end
     end
   end
