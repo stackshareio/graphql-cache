@@ -79,17 +79,33 @@ Any object, list, or connection field can be cached by simply adding `cache: tru
 field :calculated_field, Int, cache: true
 ```
 
+### Custom Expirations
+
 By default all keys will have an expiration of `GraphQL::Cache.expiry` which defaults to 90 minutes.  If you want to set a field-specific expiration time pass a hash to the `cache` parameter like this:
 
 ```ruby
 field :calculated_field, Int, cache: { expiry: 10800 } # expires key after 180 minutes
 ```
 
-When passing a hash in the `cache` parameter the possible options are:
+### Custom cache keys
 
-- `expiry`: expiration time for this field's key in seconds (default: 5400)
-- `force`: for cache misses on this field (default: false)
-- `prefix`: cache key prefix (appended after GraphQL::Cache.namespace)
+GraphQL Cache generates a cache key using the context of a query during execution. A custom key can be included to implement versioned caching as well. By providing a `:key` value to the cache config hash on a field definition.  For example, to use a custom method that returns the cache key for an object use:
+
+```ruby
+field :calculated_field, Int, cache: { key: :custom_cache_key }
+```
+
+With this configuration the cache key used for this resolved value will use the result of the method `custom_cache_key` called on the parent object.
+
+### Forcing the cache
+
+It is possible to force graphql-cache to resolve and write all cached fields to cache regardless of the presence of a given key in the cache store.  This will effectively "renew" any existing cached expirations and warm any that don't exist. To use forced caching, add a value to `:force_cache` in the query context:
+
+```ruby
+MySchema.execute('{ company(id: 123) { cachedField }}', context: { force_cache: true })
+```
+
+This will resolve all cached fields using the field's resolver and write them to cache without first reading the value at their respective cache keys.  This is useful for structured cache warming strategies where the cache expiration needs to be updated when a warming query is made.
 
 ## Development
 
