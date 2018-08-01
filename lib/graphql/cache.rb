@@ -17,10 +17,6 @@ module GraphQL
       # @return [Integer] Default: 5400 (90 minutes)
       attr_accessor :expiry
 
-      # When truthy, override all caching (force evalutaion of resolvers)
-      # @return [Boolean] Default: false
-      attr_accessor :force
-
       # Logger instance to use when logging cache hits/misses.
       # @return [Logger]
       attr_accessor :logger
@@ -43,7 +39,6 @@ module GraphQL
 
     # Default configuration
     @expiry    = 5400
-    @force     = false
     @namespace = 'graphql'
 
     # Called by plugin framework in graphql-ruby to
