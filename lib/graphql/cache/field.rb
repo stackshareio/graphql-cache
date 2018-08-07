@@ -5,7 +5,7 @@ module GraphQL
     # Custom field class implementation to allow for
     # cache config keyword parameters
     class Field < ::GraphQL::Schema::Field
-      # Override #initialize to take a new argument:
+      # Overriden to take a new cache keyword argument
       def initialize(
         *args,
         cache: false,
@@ -16,6 +16,7 @@ module GraphQL
         super(*args, **kwargs, &block)
       end
 
+      # Overriden to provide custom cache config to internal definition
       def to_graphql
         field_defn = super # Returns a GraphQL::Field
         field_defn.metadata[:cache] = @cache_config

@@ -19,6 +19,11 @@ module GraphQL
       attr_accessor :metadata
 
       # Initializes a new Key with the given graphql query context
+      #
+      # @param obj [Object] The resolved parent object for a field's resolution
+      # @param args [GraphQL::Arguments] The internal graphql-ruby wrapper for field arguments
+      # @param type [GraphQL::Schema::Type] The type definition of the parent object
+      # @param field [GraphQL::Schema::Field] The field being resolved
       def initialize(obj, args, type, field)
         @object    = obj.object
         @arguments = args
@@ -31,6 +36,12 @@ module GraphQL
 
       # Returns the string representation of this cache key
       # suitable for using as a key when writing to cache
+      #
+      # The key is constructed with this structure:
+      #
+      # ```
+      # namespace:type:field:arguments:object-id
+      # ```
       def to_s
         @to_s ||= [
           GraphQL::Cache.namespace,
