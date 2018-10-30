@@ -90,6 +90,7 @@ module GraphQL
 
       # @private
       def guess_id
+        return object.cache_key_with_version if object.respond_to?(:cache_key_with_version)
         return object.cache_key if object.respond_to?(:cache_key)
         return object.id if object.respond_to?(:id)
         object.object_id
