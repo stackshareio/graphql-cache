@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.2.0' # bc graphql-ruby requires >= 2.2.0
 
   s.add_development_dependency 'appraisal'
-  s.add_development_dependency 'bundler', '~> 2.0'
   s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'mini_cache'
   s.add_development_dependency 'pry'

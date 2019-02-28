@@ -51,7 +51,6 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal
-  bundler (~> 2.0)
   codeclimate-test-reporter
   graphql-cache!
   mini_cache
@@ -63,4 +62,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   2.0.1
+   1.17.3
