@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.summary       = 'Caching middleware for graphql-ruby'
   s.description   = 'Provides middleware field-level caching for graphql-ruby'
-  s.homepage      = 'https://github.com/Leanstack/graphql-cache'
+  s.homepage      = 'https://github.com/stackshareio/graphql-cache'
   s.license       = 'MIT'
 
   s.files         = `git ls-files -z`.split("\x0").reject do |f|
