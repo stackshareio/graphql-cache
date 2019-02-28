@@ -9,7 +9,8 @@ gemfile:
   - gemfiles/graphql_1.8.gemfile
   - gemfiles/graphql_1.9.gemfile
 before_script:
-  - gem install bundler
+  - gem update --system
+  - gem install bundler -v 1.17.3
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
