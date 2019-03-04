@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors       = ['Michael Kelly']
   s.email         = ['michaelkelly322@gmail.com']
 
-  s.summary       = 'Caching middleware for graphql-ruby'
-  s.description   = 'Provides middleware field-level caching for graphql-ruby'
+  s.summary       = 'A caching plugin for graphql-ruby'
+  s.description   = 'A caching plugin for graphql-ruby https://stackshare.io/posts/introducing-graphql-cache'
   s.homepage      = 'https://github.com/stackshareio/graphql-cache'
   s.license       = 'MIT'
 
