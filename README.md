@@ -54,6 +54,7 @@ $ gem install graphql-cache
     end
   end
   ```
+_Also note that if you want access to the `cache` keyword param in interface fields, the field_class directive must be added to your base interface module as well_
 
 ## Configuration
 
