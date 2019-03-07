@@ -1,7 +1,7 @@
 <img height=90 src=https://img.stackshare.io/misc/graphql-cache.png>
 
 # GraphQL Cache
-[![Gem Version](https://badge.fury.io/rb/graphql-cache.svg)](https://badge.fury.io/rb/graphql-cache) [![Build Status](https://travis-ci.org/stackshareio/graphql-cache.svg?branch=master)](https://travis-ci.org/stackshareio/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/test_coverage)](https://codeclimate.com/github/stackshareio/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/maintainability)](https://codeclimate.com/github/stackshareio/graphql-cache/maintainability)
+[![Gem Version](https://badge.fury.io/rb/graphql-cache.svg)](https://badge.fury.io/rb/graphql-cache) [![Build Status](https://travis-ci.org/stackshareio/graphql-cache.svg?branch=master)](https://travis-ci.org/stackshareio/graphql-cache) [![Test Coverage](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/test_coverage)](https://codeclimate.com/github/stackshareio/graphql-cache/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/524c0f23ed1dbf0f9338/maintainability)](https://codeclimate.com/github/stackshareio/graphql-cache/maintainability) [![Stack Share](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/stackshare/stackshare)
 
 A custom caching plugin for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby)
 
