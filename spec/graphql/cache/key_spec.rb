@@ -72,15 +72,15 @@ module GraphQL
 
         context 'when metadata key is a proc' do
           let(:key_proc) do
-            -> (obj) { 'baz' }
+            -> (obj, ctx) { 'baz' }
           end
 
           before do
             field.metadata[:cache] = { key: key_proc }
           end
 
-          it 'calls the proc passing object' do
-            expect(key_proc).to receive(:call).and_call_original
+          it 'calls the proc passing object and query context' do
+            expect(key_proc).to receive(:call).with(obj, {}).and_call_original
             subject.object_identifier
           end
         end
