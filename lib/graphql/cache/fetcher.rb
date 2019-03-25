@@ -30,7 +30,7 @@ module GraphQL
         old_resolve_proc = field.resolve_proc
 
         lambda do |obj, args, ctx|
-          key = cache_key(obj, args, type, field)
+          key = cache_key(obj, args, type, field, ctx)
 
           value = Marshal[key].read(
             field.metadata[:cache], force: ctx[:force_cache]

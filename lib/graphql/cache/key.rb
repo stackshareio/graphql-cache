@@ -15,6 +15,9 @@ module GraphQL
       # The graphql field being resolved
       attr_accessor :field
 
+      # The current graphql query context
+      attr_accessor :context
+
       # Metadata passed to the cache key on field definition
       attr_accessor :metadata
 
@@ -24,11 +27,12 @@ module GraphQL
       # @param args [GraphQL::Arguments] The internal graphql-ruby wrapper for field arguments
       # @param type [GraphQL::Schema::Type] The type definition of the parent object
       # @param field [GraphQL::Schema::Field] The field being resolved
-      def initialize(obj, args, type, field)
+      def initialize(obj, args, type, field, context = {})
         @object    = obj.object
         @arguments = args
         @type      = type
         @field     = field
+        @context   = context
         @metadata  = field.metadata[:cache]
 
         @metadata = { cache: @metadata } unless @metadata.is_a?(Hash)
@@ -80,7 +84,7 @@ module GraphQL
         when Symbol
           object.send(metadata[:key])
         when Proc
-          metadata[:key].call(object)
+          metadata[:key].call(object, context)
         when NilClass
           guess_id
         else
@@ -93,6 +97,7 @@ module GraphQL
         return object.cache_key_with_version if object.respond_to?(:cache_key_with_version)
         return object.cache_key if object.respond_to?(:cache_key)
         return object.id if object.respond_to?(:id)
+
         object.object_id
       end
     end
