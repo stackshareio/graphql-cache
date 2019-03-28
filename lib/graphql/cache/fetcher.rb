@@ -32,11 +32,50 @@ module GraphQL
         lambda do |obj, args, ctx|
           key = cache_key(obj, args, type, field)
 
-          Marshal[key].read(field.metadata[:cache], force: ctx[:force_cache]) do
+          cached_value = Marshal[key].read(
+            field.metadata[:cache], force: ctx[:force_cache]
+          ) do
             old_resolve_proc.call(obj, args, ctx)
           end
+
+          wrap_connections(cached_value, args, field, obj, ctx)
         end
       end
+
+      # @private
+      def wrap_connections(cached_value, args, field, obj, ctx)
+        # check for a connection implementation for this cached value
+        conn_class = cached_value.class.ancestors.find do |ancestor|
+          !connection_for(ancestor.name).nil?
+        end
+
+        if conn_class
+          create_connection(conn_class, cached_value, args, field, obj, ctx)
+        else
+          # if we get here, this is not a connection
+          # value and should be returned as is
+          cached_value
+        end
+      end
+
+      # @private
+      def connection_for(name)
+        GraphQL::Relay::BaseConnection::CONNECTION_IMPLEMENTATIONS[name]
+      end
+
+      # rubocop:disable Metrics/ParameterLists
+
+      # @private
+      def create_connection(conn_class, value, args, field, obj, ctx)
+        connection_for(conn_class.name).new(
+          value,
+          args,
+          field: field,
+          parent: obj,
+          context: ctx
+        )
+      end
+      # rubocop:enable Metrics/ParameterLists
     end
   end
 end
