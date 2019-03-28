@@ -25,6 +25,8 @@ RSpec.configure do |config|
   config.before(:suite) do
     GraphQL::Cache.cache  = TestCache.new
     GraphQL::Cache.logger = TestLogger.new
+
+    DB.logger = GraphQL::Cache.logger
   end
 
   # required after GraphQL::Cache initialization because dev
