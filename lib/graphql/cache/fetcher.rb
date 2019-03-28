@@ -38,14 +38,14 @@ module GraphQL
             old_resolve_proc.call(obj, args, ctx)
           end
 
-          wrap_connections(value, args, field, obj, ctx)
+          wrap_connections(value, args, field: field, parent: obj, context: ctx)
         end
       end
 
       # @private
-      def wrap_connections(value, args, field, obj, ctx)
+      def wrap_connections(value, args, **kwargs)
         # return raw value if field isn't a connection (no need to wrap)
-        return value unless field.connection?
+        return value unless kwargs[:field].connection?
 
         # return cached value if it is already a connection object
         # this occurs when the value is being resolved by GraphQL
@@ -54,17 +54,17 @@ module GraphQL
           GraphQL::Relay::BaseConnection
         )
 
-        create_connection(value, args, field, obj, ctx)
+        create_connection(value, args, **kwargs)
       end
 
       # @private
-      def create_connection(value, args, field, obj, ctx)
+      def create_connection(value, args, **kwargs)
         GraphQL::Relay::BaseConnection.connection_for_nodes(value).new(
           value,
           args,
-          field: field,
-          parent: obj,
-          context: ctx
+          field: kwargs[:field],
+          parent: kwargs[:parent],
+          context: kwargs[:context]
         )
       end
     end
