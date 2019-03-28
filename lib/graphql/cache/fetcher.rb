@@ -32,42 +32,34 @@ module GraphQL
         lambda do |obj, args, ctx|
           key = cache_key(obj, args, type, field)
 
-          cached_value = Marshal[key].read(
+          value = Marshal[key].read(
             field.metadata[:cache], force: ctx[:force_cache]
           ) do
             old_resolve_proc.call(obj, args, ctx)
           end
 
-          wrap_connections(cached_value, args, field, obj, ctx)
+          wrap_connections(value, args, field, obj, ctx)
         end
       end
 
       # @private
-      def wrap_connections(cached_value, args, field, obj, ctx)
-        # check for a connection implementation for this cached value
-        conn_class = cached_value.class.ancestors.find do |ancestor|
-          !connection_for(ancestor.name).nil?
-        end
+      def wrap_connections(value, args, field, obj, ctx)
+        # return raw value if field isn't a connection (no need to wrap)
+        return value unless field.connection?
 
-        if conn_class
-          create_connection(conn_class, cached_value, args, field, obj, ctx)
-        else
-          # if we get here, this is not a connection
-          # value and should be returned as is
-          cached_value
-        end
+        # return cached value if it is already a connection object
+        # this occurs when the value is being resolved by GraphQL
+        # and not being read from cache
+        return value if value.class.ancestors.include?(
+          GraphQL::Relay::BaseConnection
+        )
+
+        create_connection(value, args, field, obj, ctx)
       end
 
       # @private
-      def connection_for(name)
-        GraphQL::Relay::BaseConnection::CONNECTION_IMPLEMENTATIONS[name]
-      end
-
-      # rubocop:disable Metrics/ParameterLists
-
-      # @private
-      def create_connection(conn_class, value, args, field, obj, ctx)
-        connection_for(conn_class.name).new(
+      def create_connection(value, args, field, obj, ctx)
+        GraphQL::Relay::BaseConnection.connection_for_nodes(value).new(
           value,
           args,
           field: field,
@@ -75,7 +67,6 @@ module GraphQL
           context: ctx
         )
       end
-      # rubocop:enable Metrics/ParameterLists
     end
   end
 end
