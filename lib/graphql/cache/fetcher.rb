@@ -21,8 +21,8 @@ module GraphQL
       end
 
       # @private
-      def cache_key(obj, args, type, field)
-        Key.new(obj, args, type, field).to_s
+      def cache_key(obj, args, type, field, ctx)
+        Key.new(obj, args, type, field, ctx).to_s
       end
 
       # @private
