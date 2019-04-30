@@ -32,10 +32,40 @@ module GraphQL
         lambda do |obj, args, ctx|
           key = cache_key(obj, args, type, field)
 
-          Marshal[key].read(field.metadata[:cache], force: ctx[:force_cache]) do
+          value = Marshal[key].read(
+            field.metadata[:cache], force: ctx[:force_cache]
+          ) do
             old_resolve_proc.call(obj, args, ctx)
           end
+
+          wrap_connections(value, args, field: field, parent: obj, context: ctx)
         end
+      end
+
+      # @private
+      def wrap_connections(value, args, **kwargs)
+        # return raw value if field isn't a connection (no need to wrap)
+        return value unless kwargs[:field].connection?
+
+        # return cached value if it is already a connection object
+        # this occurs when the value is being resolved by GraphQL
+        # and not being read from cache
+        return value if value.class.ancestors.include?(
+          GraphQL::Relay::BaseConnection
+        )
+
+        create_connection(value, args, **kwargs)
+      end
+
+      # @private
+      def create_connection(value, args, **kwargs)
+        GraphQL::Relay::BaseConnection.connection_for_nodes(value).new(
+          value,
+          args,
+          field: kwargs[:field],
+          parent: kwargs[:parent],
+          context: kwargs[:context]
+        )
       end
     end
   end
