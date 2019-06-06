@@ -68,7 +68,6 @@ GraphQL::Cache.configure do |config|
   config.cache     = Rails.cache      # The cache object to use for caching
   config.logger    = Rails.logger     # Logger to receive cache-related log messages
   config.expiry    = 5400             # 90 minutes (in seconds)
-  config.force     = false            # Cache override, when true no caching takes place
 end
 ```
 
