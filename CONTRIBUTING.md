@@ -18,6 +18,6 @@
 
 * If you have code, by all means, open a pull request!
 
-Thanks again for contirbuting to GraphQL Cache! :tada:
+Thanks again for contributing to GraphQL Cache! :tada:
 
 The StackShare Team
