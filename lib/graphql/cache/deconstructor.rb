@@ -14,11 +14,11 @@ module GraphQL
 
       # A flag indicating the type of object construction to
       # use when building a new GraphQL object. Can be one of
-      # 'array', 'collectionproxy', 'relation'. These values
+      # 'array', 'collectionproxy', 'relation', 'lazy'. These values
       # have been chosen because it is easy to use the class
       # names of the possible object types for this purpose.
       #
-      # @return [String] 'array' or 'collectionproxy' or 'relation'
+      # @return [String] 'array' or 'collectionproxy' or 'relation' or 'lazy'
       attr_accessor :method
 
       # Initializer helper that generates a valid `method` string based
@@ -42,9 +42,12 @@ module GraphQL
 
       # Deconstructs a GraphQL field into a cachable value
       #
-      # @return [Object] A value suitable for writing to cache
+      # @return [Object] A value suitable for writing to cache or a lazily
+      # resolved value
       def perform
-        if %(array collectionproxy).include? method
+        if method == 'lazy'
+          raw.then { |resolved_raw| self.class[resolved_raw].perform }
+        elsif %(array collectionproxy).include? method
           deconstruct_array(raw)
         elsif raw.class.ancestors.include? GraphQL::Relay::BaseConnection
           raw.nodes
@@ -59,9 +62,16 @@ module GraphQL
 
         if raw.first.class.ancestors.include? GraphQL::Schema::Object
           raw.map(&:object)
+        elsif array_contains_promise?(raw)
+          Promise.all(raw).then { |resolved| deconstruct_array(resolved) }
         else
           raw
         end
+      end
+
+      # @private
+      def array_contains_promise?(raw)
+        raw.any? { |element| element.class.name == 'Promise' }
       end
 
       # @private
