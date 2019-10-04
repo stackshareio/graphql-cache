@@ -88,6 +88,19 @@ module GraphQL
           expect(cache).to receive(:write).with(key, doc, expires_in: GraphQL::Cache.expiry)
           subject.write(config) { doc }
         end
+
+        context 'when the resolved value is a promise', skip: !defined?(Promise) do
+          let(:doc) { Promise.resolve('value') }
+
+          it 'should write the promise resolution value to the cache' do
+            expect(cache).to receive(:write).with(key, doc.value, expires_in: GraphQL::Cache.expiry)
+            subject.write(config) { doc }
+          end
+
+          it 'should return a promise that resolves to the value' do
+            expect((subject.write(config) { doc }).value).to eq('value')
+          end
+        end
       end
 
       describe '#expiry' do

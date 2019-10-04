@@ -8,6 +8,7 @@ rvm:
 gemfile:
   - gemfiles/graphql_1.8.gemfile
   - gemfiles/graphql_1.9.gemfile
+  - gemfiles/with_promises.gemfile
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
