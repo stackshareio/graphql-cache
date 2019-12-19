@@ -40,7 +40,19 @@ RSpec.describe 'caching connection fields' do
 
   shared_examples "be a correct cold and warm" do
     let(:reference) do
-      {"data" => {"customer" => {"orders" => {"edges" => [{"node" => {"id" =>1 }}, {"node" => {"id" => 2}}, {"node" => {"id" => 3}}]}}}}
+      {
+        "data" => {
+          "customer" => {
+            "orders" => {
+              "edges" => [
+                {"node" => {"id" => 1}},
+                {"node" => {"id" => 2}},
+                {"node" => {"id" => 3}}
+              ]
+            }
+          }
+        }
+     }
     end
 
     it 'produces the same result on miss or hit' do
@@ -91,9 +103,9 @@ RSpec.describe 'caching connection fields' do
 
       expect(sql_logger.messages).to eq(
         <<~SQL
-          SELECT "customers".* FROM "customers" ORDER BY "customers"."id" DESC LIMIT ?  [["LIMIT", 1]]
-          SELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
-          SELECT "orders".* FROM "orders" WHERE "orders"."customer_id" = ?  [["customer_id", 1]]
+          SELECT \"customers\".* FROM \"customers\" ORDER BY \"customers\".\"id\" DESC LIMIT ?\e[0m  [[\"LIMIT\", 1]]
+          SELECT \"customers\".* FROM \"customers\" WHERE \"customers\".\"id\" = ? LIMIT ?\e[0m  [[\"id\", 1], [\"LIMIT\", 1]]
+          SELECT \"orders\".* FROM \"orders\" WHERE \"orders\".\"customer_id\" = ?\e[0m  [[\"customer_id\", 1]]
         SQL
       )
     end

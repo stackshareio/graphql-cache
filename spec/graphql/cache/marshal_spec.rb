@@ -32,19 +32,6 @@ module GraphQL
 
       describe '#read' do
         let(:config) { true }
-        let(:block) { double('block', call: 'foo') }
-
-        context 'when force is set' do
-          it 'should execute the block' do
-            expect(block).to receive(:call)
-            subject.read(config, force: true) { block.call }
-          end
-
-          it 'should write to cache' do
-            expect(cache).to receive(:write).with(key, doc, expires_in: GraphQL::Cache.expiry)
-            subject.write(config) { doc }
-          end
-        end
 
         context 'when cache object exists' do
           before do
@@ -52,27 +39,15 @@ module GraphQL
           end
 
           it 'should return cached value' do
-            expect(subject.read(config) { block.call }).to eq doc
-          end
-
-          it 'should not execute the block' do
-            expect(block).to_not receive(:call)
-            subject.read(config) { block.call }
+            expect(subject.read).to eq doc
           end
         end
 
         context 'when cache object does not exist' do
-          before do
-            cache.clear
-          end
+          before { cache.clear }
 
-          it 'should return the evaluated value' do
-            expect(subject.read(config) { block.call }).to eq block.call
-          end
-
-          it 'should execute the block' do
-            expect(block).to receive(:call)
-            subject.read(config) { block.call }
+          it 'should return nil' do
+            expect(subject.read).to be_nil
           end
         end
       end
