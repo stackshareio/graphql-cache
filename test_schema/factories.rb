@@ -1,4 +1,4 @@
-module Factories
+class Factories
   def self.bootstrap
     customer = Customer.create(
       display_name: 'Michael',

@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake',    '~> 10.0'
   s.add_development_dependency 'rspec',   '~> 3.0'
   s.add_development_dependency 'sequel'
+  s.add_development_dependency 'activerecord'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
 
