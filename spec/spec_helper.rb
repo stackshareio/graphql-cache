@@ -29,6 +29,10 @@ RSpec.configure do |config|
     DB.logger = GraphQL::Cache.logger
   end
 
+  config.before(:each) do
+    GraphQL::Cache.cache.clear
+  end
+
   # required after GraphQL::Cache initialization because dev
   # schema uses cache and logger objects from it.
   require_relative '../test_schema'
