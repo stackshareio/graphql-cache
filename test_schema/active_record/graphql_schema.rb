@@ -16,6 +16,8 @@ module AR
     query AR::QueryType
     use GraphQL::Cache
 
+    default_max_page_size 50
+
     def self.resolve_type(_type, obj, _ctx)
       "AR::#{obj.class.name}Type"
     end

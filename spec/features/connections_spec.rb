@@ -101,11 +101,11 @@ RSpec.describe 'caching connection fields' do
     it 'calls sql engine only one time per cached field' do
       5.times { execute(query) }
 
-      expect(sql_logger.messages).to eq(
-        <<~SQL
+      expect(sql_logger.messages.squish).to eq(
+        <<~SQL.squish
           SELECT \"customers\".* FROM \"customers\" ORDER BY \"customers\".\"id\" DESC LIMIT ?\e[0m  [[\"LIMIT\", 1]]
           SELECT \"customers\".* FROM \"customers\" WHERE \"customers\".\"id\" = ? LIMIT ?\e[0m  [[\"id\", 1], [\"LIMIT\", 1]]
-          SELECT \"orders\".* FROM \"orders\" WHERE \"orders\".\"customer_id\" = ?\e[0m  [[\"customer_id\", 1]]
+          SELECT \"orders\".* FROM \"orders\" WHERE \"orders\".\"customer_id\" = ? LIMIT ?\e[0m  [[\"customer_id\", 1], [\"LIMIT\", 50]]
         SQL
       )
     end

@@ -1,4 +1,7 @@
-require 'active_record' # should be required before graphql-ruby
+# ORMs should be required before graphql-ruby
+require 'active_record'
+require 'sequel'
+
 require 'bundler/setup'
 require 'pry'
 
