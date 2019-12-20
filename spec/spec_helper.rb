@@ -1,4 +1,4 @@
-require 'active_record' # should be before graphql-ruby
+require 'active_record' # should be required before graphql-ruby
 require 'bundler/setup'
 require 'pry'
 
@@ -36,8 +36,9 @@ RSpec.configure do |config|
 
   # required after GraphQL::Cache initialization because dev
   # schema uses cache and logger objects from it.
-  require_relative '../test_schema'
-  require_relative '../test_schema/active_record/init'
+  %i[sequel active_record].each do |orm|
+    require_relative "../test_schema/#{orm}/init"
+  end
 
   config.include TestMacros
   config.extend  TestMacros::ClassMethods
