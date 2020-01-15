@@ -11,17 +11,18 @@ module GraphQL
         @field = field
       end
 
-      def call(obj, args, ctx)
-        resolve_proc = proc { field.resolve_proc.call(obj, args, ctx) }
+      def call(obj, args, ctx, &block)
+        resolve_proc = proc { block.call(obj, args, ctx) }
         key = cache_key(obj, args, ctx)
-        metadata = field.metadata[:cache]
+
+        cache_config = field.instance_variable_get(:@__cache_config)
 
         if field.connection?
-          Resolvers::ConnectionResolver.new(resolve_proc, key, metadata).call(
+          Resolvers::ConnectionResolver.new(resolve_proc, key, cache_config).call(
             args: args, field: field, parent: obj, context: ctx, force_cache: ctx[:force_cache]
           )
         else
-          Resolvers::ScalarResolver.new(resolve_proc, key, metadata).call(force_cache: ctx[:force_cache])
+          Resolvers::ScalarResolver.new(resolve_proc, key, cache_config).call(force_cache: ctx[:force_cache])
         end
       end
 

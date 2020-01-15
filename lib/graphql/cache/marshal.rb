@@ -44,6 +44,7 @@ module GraphQL
 
         with_resolved_document(document) do |resolved_document|
           cache.write(key, resolved_document, expires_in: expiry(config))
+          logger.debug "Cache was added: (#{key} with config #{config})"
 
           resolved
         end

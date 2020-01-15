@@ -30,44 +30,49 @@ module GraphQL
         end
 
         def call(args:, field:, parent:, context:, force_cache:)
-          if force_cache || (cached = read).nil?
-            define_relation_cache(resolve_proc.call)
+          if force_cache || (cache = read).nil?
+            define_relation_cache(resolve_proc.call, args, field, parent: parent, context: context)
           else
-            wrap_connection(cached, args, field, parent: parent, context: context)
+            use(cache, args, field, parent: parent, context: context)
           end
         end
 
         private
 
-        def wrap_connection(cached, args, field, **kwargs)
-          nodes, paged_nodes = parse(cached)
+        def define_relation_cache(nodes, args, field, **kwargs)
+          if nodes.is_a?(GraphQL::Relay::RelationConnection)
+            # inject cached logic into the relation connection
+            # works with non Interpreter mode
+            nodes
+          else
+            # nodes are Array or ActiveRecord relation
+            wrap_to_connection(nodes, args, field, kwargs)
+          end.extend(RelationConnectionOverload.new(method(:write)))
+        end
 
+        def use(cache, args, field, **kwargs)
+          nodes, paged_nodes = parse(cache)
+
+          wrap_to_connection(nodes, args, field, kwargs).tap do |conn|
+            # restore cached paged_nodes (works for AR relations)
+            conn.instance_variable_set(:@paged_nodes, paged_nodes) if paged_nodes
+          end
+        end
+
+        def wrap_to_connection(nodes, args, field, **kwargs)
           GraphQL::Relay::BaseConnection.connection_for_nodes(nodes).new(
             nodes,
             args,
             field: field,
             parent: kwargs[:parent],
             context: kwargs[:context]
-          ).tap do |connection|
-            # restore cached paged_nodes
-            connection.instance_variable_set(:@paged_nodes, paged_nodes) if paged_nodes
-          end
+          )
         end
 
-        def define_relation_cache(connection)
-          if connection.is_a?(GraphQL::Relay::RelationConnection)
-            # inject cached logic into the relation connection
-            connection.extend(RelationConnectionOverload.new(method(:write)))
-          else
-            # cache loaded connection (works for ArrayConnection)
-            write { connection }
-          end
-        end
+        def parse(cache)
+          return [cache, nil] unless cache.is_a?(NodesCache)
 
-        def parse(cached)
-          return [cached, nil] unless cached.is_a?(NodesCache)
-
-          [cached.nodes, cached.paged_nodes]
+          [cache.nodes, cache.paged_nodes]
         end
       end
     end

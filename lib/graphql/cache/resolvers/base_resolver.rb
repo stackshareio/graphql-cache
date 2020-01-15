@@ -4,10 +4,10 @@ module GraphQL
   module Cache
     module Resolvers
       class BaseResolver
-        def initialize(resolve_proc, key, metadata)
+        def initialize(resolve_proc, key, cache_config)
           @resolve_proc = resolve_proc
           @key = key
-          @metadata = metadata
+          @cache_config = cache_config
         end
 
         def call(*args)
@@ -16,14 +16,14 @@ module GraphQL
 
         private
 
-        attr_reader :resolve_proc, :key, :metadata
+        attr_reader :resolve_proc, :key, :cache_config
 
         def read
           Marshal[key].read
         end
 
         def write(&block)
-          Marshal[key].write(metadata, &block)
+          Marshal[key].write(cache_config, &block)
         end
       end
     end
