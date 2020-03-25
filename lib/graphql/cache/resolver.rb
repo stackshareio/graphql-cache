@@ -11,8 +11,8 @@ module GraphQL
         @field = field
       end
 
-      def call(obj, args, ctx, &block)
-        resolve_proc = proc { block.call(obj, args, ctx) }
+      def call(obj, args, ctx, block)
+        resolve_proc = block #proc { block.call(obj, args, ctx) }
         key = cache_key(obj, args, ctx)
 
         cache_config = field.instance_variable_get(:@__cache_config)
