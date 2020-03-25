@@ -5,6 +5,8 @@ require 'graphql/cache/field'
 require 'graphql/cache/key'
 require 'graphql/cache/marshal'
 require 'graphql/cache/fetcher'
+require 'graphql/cache/field_extension'
+require 'graphql/cache/patch/connection_extension'
 
 module GraphQL
   module Cache
@@ -45,8 +47,11 @@ module GraphQL
     # bootstrap necessary instrumentation and tracing
     # tie-ins
     def self.use(schema_def, options: {})
-      fetcher = ::GraphQL::Cache::Fetcher.new
-      schema_def.instrument(:field, fetcher)
+      # please, use GraphQL::Cache::FieldExtension if use Interpreter mode
+      if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('1.9.0.pre3')
+        fetcher = ::GraphQL::Cache::Fetcher.new
+        schema_def.instrument(:field, fetcher)
+      end
     end
   end
 end

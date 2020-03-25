@@ -94,7 +94,12 @@ RSpec.describe 'caching connection fields' do
 
     let(:customer) { AR::Customer.last }
 
-    before { ActiveRecord::Base.logger = sql_logger }
+    around(:each) do |example|
+      default_logger = ActiveRecord::Base.logger
+      ActiveRecord::Base.logger = sql_logger
+      example.run
+      ActiveRecord::Base.logger = default_logger
+    end
 
     it_behaves_like "be a correct cold and warm"
 

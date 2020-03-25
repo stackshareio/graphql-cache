@@ -33,7 +33,7 @@ module GraphQL
         @type      = type
         @field     = field
         @context   = context
-        @metadata  = field.metadata[:cache]
+        @metadata  = field.instance_variable_get(:@cache_config)
 
         @metadata = { cache: @metadata } unless @metadata.is_a?(Hash)
       end
