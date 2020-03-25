@@ -7,7 +7,7 @@ end
 class OrderType < BaseType
   field :id, Int, null: false
   field :number, Int, null: true
-  field :total_price_cents, Int, null: true
+  field :total_price_cents, Int, null: true, extensions: [::GraphQL::Cache::FieldExtension]
 end
 
 class CustomerType < BaseType
