@@ -2,11 +2,13 @@
 
 class TestCache
   def write(key, doc, opts={})
-    cache[key] = doc
+    # duplicate the value to get rid of ruby object level caching
+    # and reproduce Rails.cache logic
+    cache[key] = ::Marshal.load(::Marshal.dump(doc))
   end
 
   def read(key)
-    cache[key]
+    ::Marshal.load(::Marshal.dump(cache[key]))
   end
 
   def cache

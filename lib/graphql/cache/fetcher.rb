@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'graphql/cache/resolvers/base_resolver'
+require 'graphql/cache/resolvers/scalar_resolver'
+require 'graphql/cache/resolvers/connection_resolver'
 require 'graphql/cache/resolver'
 
 module GraphQL

@@ -24,23 +24,12 @@ module GraphQL
         self.key = key.to_s
       end
 
-      # Read a value from cache if it exists and re-hydrate it or
-      # execute the block and write it's result to cache
-      #
-      # @param config [Hash] The object passed to `cache:` on the field definition
+      # Read a value from cache
       # @return [Object]
-      def read(config, force: false, &block)
-        # write new data from resolver if forced
-        return write(config, &block) if force
-
-        cached = cache.read(key)
-
-        if cached.nil?
-          logger.debug "Cache miss: (#{key})"
-          write config, &block
-        else
-          logger.debug "Cache hit: (#{key})"
-          cached
+      def read
+        cache.read(key).tap do |cached|
+          logger.debug "Cache miss: (#{key})" if cached.nil?
+          logger.debug "Cache hit: (#{key})" if cached
         end
       end
 
@@ -55,6 +44,7 @@ module GraphQL
 
         with_resolved_document(document) do |resolved_document|
           cache.write(key, resolved_document, expires_in: expiry(config))
+          logger.debug "Cache was added: (#{key} with config #{config})"
 
           resolved
         end

@@ -1,3 +1,7 @@
+# ORMs should be required before graphql-ruby
+require 'active_record'
+require 'sequel'
+
 require 'bundler/setup'
 require 'pry'
 
@@ -29,9 +33,15 @@ RSpec.configure do |config|
     DB.logger = GraphQL::Cache.logger
   end
 
+  config.before(:each) do
+    GraphQL::Cache.cache.clear
+  end
+
   # required after GraphQL::Cache initialization because dev
   # schema uses cache and logger objects from it.
-  require_relative '../test_schema'
+  %i[sequel active_record].each do |orm|
+    require_relative "../test_schema/#{orm}/init"
+  end
 
   config.include TestMacros
   config.extend  TestMacros::ClassMethods
