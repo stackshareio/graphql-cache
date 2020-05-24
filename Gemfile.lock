@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    graphql-cache (0.6.0)
+    graphql-cache (0.6.1)
       graphql (~> 1, > 1.8)
 
 GEM
@@ -24,7 +24,7 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -57,7 +57,7 @@ DEPENDENCIES
   mini_cache
   promise.rb
   pry
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.0)
   sequel
   simplecov
