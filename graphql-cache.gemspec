@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sequel'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'promise.rb'
 
   s.add_dependency 'graphql', '~> 1', '> 1.8'
 end
