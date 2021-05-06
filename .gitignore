@@ -13,3 +13,5 @@
 *.gem
 
 gemfiles/*.gemfile.lock
+
+.tool-versions
