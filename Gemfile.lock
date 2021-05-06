@@ -61,5 +61,3 @@ DEPENDENCIES
   simplecov
   sqlite3
 
-BUNDLED WITH
-   1.17.3
