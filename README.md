@@ -1,3 +1,5 @@
+**NOTE: this project is looking for maintainers.** If you need caching to work for newer versions of graphql-ruby or for connection types, you may want to have a look at the [graphql-fragment_cache](https://github.com/DmitryTsepelev/graphql-ruby-fragment_cache) gem.
+
 <img height=90 src=https://img.stackshare.io/misc/graphql-cache.png>
 
 # GraphQL Cache
